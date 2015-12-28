@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		C851AF6EFA6CBCC63AEFA0AC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4486F4BD865A42C3F145D5BB /* libPods.a */; };
+		EB245E281C31960800AE68FC /* VideoCamera.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB245E271C31960800AE68FC /* VideoCamera.mm */; };
 		FFF274011C21B14D004C5BBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF274001C21B14D004C5BBD /* main.m */; };
 		FFF274041C21B14D004C5BBD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF274031C21B14D004C5BBD /* AppDelegate.m */; };
-		FFF274071C21B14D004C5BBD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF274061C21B14D004C5BBD /* ViewController.m */; };
+		FFF274071C21B14D004C5BBD /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FFF274061C21B14D004C5BBD /* ViewController.mm */; };
 		FFF2740A1C21B14D004C5BBD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFF274081C21B14D004C5BBD /* Main.storyboard */; };
 		FFF2740C1C21B14D004C5BBD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFF2740B1C21B14D004C5BBD /* Assets.xcassets */; };
 		FFF2740F1C21B14D004C5BBD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFF2740D1C21B14D004C5BBD /* LaunchScreen.storyboard */; };
@@ -20,12 +21,14 @@
 		4486F4BD865A42C3F145D5BB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FD5FE4A34CA05A55E19ADC0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8CC22DFA53EA9BF85512EAEF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		EB245E261C31960800AE68FC /* VideoCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCamera.h; sourceTree = "<group>"; };
+		EB245E271C31960800AE68FC /* VideoCamera.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VideoCamera.mm; sourceTree = "<group>"; };
 		FFF273FC1C21B14D004C5BBD /* EyeBlinking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EyeBlinking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFF274001C21B14D004C5BBD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FFF274021C21B14D004C5BBD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FFF274031C21B14D004C5BBD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FFF274051C21B14D004C5BBD /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		FFF274061C21B14D004C5BBD /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		FFF274061C21B14D004C5BBD /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		FFF274091C21B14D004C5BBD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FFF2740B1C21B14D004C5BBD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FFF2740E1C21B14D004C5BBD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -82,10 +85,12 @@
 		FFF273FE1C21B14D004C5BBD /* EyeBlinking */ = {
 			isa = PBXGroup;
 			children = (
+				EB245E261C31960800AE68FC /* VideoCamera.h */,
+				EB245E271C31960800AE68FC /* VideoCamera.mm */,
 				FFF274021C21B14D004C5BBD /* AppDelegate.h */,
 				FFF274031C21B14D004C5BBD /* AppDelegate.m */,
 				FFF274051C21B14D004C5BBD /* ViewController.h */,
-				FFF274061C21B14D004C5BBD /* ViewController.m */,
+				FFF274061C21B14D004C5BBD /* ViewController.mm */,
 				FFF274081C21B14D004C5BBD /* Main.storyboard */,
 				FFF2740B1C21B14D004C5BBD /* Assets.xcassets */,
 				FFF2740D1C21B14D004C5BBD /* LaunchScreen.storyboard */,
@@ -224,7 +229,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFF274071C21B14D004C5BBD /* ViewController.m in Sources */,
+				EB245E281C31960800AE68FC /* VideoCamera.mm in Sources */,
+				FFF274071C21B14D004C5BBD /* ViewController.mm in Sources */,
 				FFF274041C21B14D004C5BBD /* AppDelegate.m in Sources */,
 				FFF274011C21B14D004C5BBD /* main.m in Sources */,
 			);
