@@ -45,20 +45,22 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
     [self resetSession];
 }
 
-- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    
+- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
     float rotation;
     
-    if (toInterfaceOrientation==UIInterfaceOrientationPortrait) {
+    if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
+    {
         rotation = 0;
-    } else
-        if (toInterfaceOrientation==UIInterfaceOrientationLandscapeLeft) {
-            rotation = M_PI/2;
-        } else
-            if (toInterfaceOrientation==UIInterfaceOrientationLandscapeRight) {
-                rotation = -M_PI/2;
-            }
-    
+    }
+    else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+    {
+        rotation = M_PI/2;
+    }
+    else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        rotation = -M_PI/2;
+    }
     [UIView animateWithDuration:duration animations:^{
         self.videoCaptureView.transform = CGAffineTransformMakeRotation(rotation);
         self.videoCaptureView.frame = self.view.frame;
