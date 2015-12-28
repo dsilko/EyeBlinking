@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C851AF6EFA6CBCC63AEFA0AC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4486F4BD865A42C3F145D5BB /* libPods.a */; };
 		EB245E281C31960800AE68FC /* VideoCamera.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB245E271C31960800AE68FC /* VideoCamera.mm */; };
+		EB245E2B1C31A7BD00AE68FC /* haarcascade_eye.xml in Resources */ = {isa = PBXBuildFile; fileRef = EB245E291C31A7BD00AE68FC /* haarcascade_eye.xml */; };
+		EB245E2C1C31A7BD00AE68FC /* haarcascade_frontalface_alt2.xml in Resources */ = {isa = PBXBuildFile; fileRef = EB245E2A1C31A7BD00AE68FC /* haarcascade_frontalface_alt2.xml */; };
 		FFF274011C21B14D004C5BBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF274001C21B14D004C5BBD /* main.m */; };
 		FFF274041C21B14D004C5BBD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF274031C21B14D004C5BBD /* AppDelegate.m */; };
 		FFF274071C21B14D004C5BBD /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FFF274061C21B14D004C5BBD /* ViewController.mm */; };
@@ -23,6 +25,8 @@
 		8CC22DFA53EA9BF85512EAEF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EB245E261C31960800AE68FC /* VideoCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCamera.h; sourceTree = "<group>"; };
 		EB245E271C31960800AE68FC /* VideoCamera.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VideoCamera.mm; sourceTree = "<group>"; };
+		EB245E291C31A7BD00AE68FC /* haarcascade_eye.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_eye.xml; sourceTree = "<group>"; };
+		EB245E2A1C31A7BD00AE68FC /* haarcascade_frontalface_alt2.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_alt2.xml; sourceTree = "<group>"; };
 		FFF273FC1C21B14D004C5BBD /* EyeBlinking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EyeBlinking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFF274001C21B14D004C5BBD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FFF274021C21B14D004C5BBD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -85,6 +89,8 @@
 		FFF273FE1C21B14D004C5BBD /* EyeBlinking */ = {
 			isa = PBXGroup;
 			children = (
+				EB245E291C31A7BD00AE68FC /* haarcascade_eye.xml */,
+				EB245E2A1C31A7BD00AE68FC /* haarcascade_frontalface_alt2.xml */,
 				EB245E261C31960800AE68FC /* VideoCamera.h */,
 				EB245E271C31960800AE68FC /* VideoCamera.mm */,
 				FFF274021C21B14D004C5BBD /* AppDelegate.h */,
@@ -168,7 +174,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB245E2B1C31A7BD00AE68FC /* haarcascade_eye.xml in Resources */,
 				FFF2740F1C21B14D004C5BBD /* LaunchScreen.storyboard in Resources */,
+				EB245E2C1C31A7BD00AE68FC /* haarcascade_frontalface_alt2.xml in Resources */,
 				FFF2740C1C21B14D004C5BBD /* Assets.xcassets in Resources */,
 				FFF2740A1C21B14D004C5BBD /* Main.storyboard in Resources */,
 			);
