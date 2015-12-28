@@ -10,6 +10,8 @@
 
 @implementation VideoCamera
 
+@synthesize customPreviewLayer = _customPreviewLayer;
+
 - (void)updateOrientation
 {
     // nop
