@@ -14,12 +14,13 @@
 
 - (void)updateOrientation
 {
-    // nop
+    
 }
 
 - (void)layoutPreviewLayer
 {
-    if (self.parentView != nil) {
+    if (self.parentView != nil)
+    {
         CALayer* layer = self.customPreviewLayer;
         CGRect bounds = self.customPreviewLayer.bounds;
         layer.position = CGPointMake(self.parentView.frame.size.width/2., self.parentView.frame.size.height/2.);

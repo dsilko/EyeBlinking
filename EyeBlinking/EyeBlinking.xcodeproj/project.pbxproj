@@ -11,6 +11,7 @@
 		EB245E281C31960800AE68FC /* VideoCamera.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB245E271C31960800AE68FC /* VideoCamera.mm */; };
 		EB245E2B1C31A7BD00AE68FC /* haarcascade_eye.xml in Resources */ = {isa = PBXBuildFile; fileRef = EB245E291C31A7BD00AE68FC /* haarcascade_eye.xml */; };
 		EB245E2C1C31A7BD00AE68FC /* haarcascade_frontalface_alt2.xml in Resources */ = {isa = PBXBuildFile; fileRef = EB245E2A1C31A7BD00AE68FC /* haarcascade_frontalface_alt2.xml */; };
+		EB245E2F1C31B40800AE68FC /* EyeBlinkingAnalyser.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB245E2E1C31B40800AE68FC /* EyeBlinkingAnalyser.mm */; };
 		FFF274011C21B14D004C5BBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF274001C21B14D004C5BBD /* main.m */; };
 		FFF274041C21B14D004C5BBD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF274031C21B14D004C5BBD /* AppDelegate.m */; };
 		FFF274071C21B14D004C5BBD /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FFF274061C21B14D004C5BBD /* ViewController.mm */; };
@@ -27,6 +28,8 @@
 		EB245E271C31960800AE68FC /* VideoCamera.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VideoCamera.mm; sourceTree = "<group>"; };
 		EB245E291C31A7BD00AE68FC /* haarcascade_eye.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_eye.xml; sourceTree = "<group>"; };
 		EB245E2A1C31A7BD00AE68FC /* haarcascade_frontalface_alt2.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_alt2.xml; sourceTree = "<group>"; };
+		EB245E2D1C31B40800AE68FC /* EyeBlinkingAnalyser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EyeBlinkingAnalyser.h; sourceTree = "<group>"; };
+		EB245E2E1C31B40800AE68FC /* EyeBlinkingAnalyser.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EyeBlinkingAnalyser.mm; sourceTree = "<group>"; };
 		FFF273FC1C21B14D004C5BBD /* EyeBlinking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EyeBlinking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFF274001C21B14D004C5BBD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FFF274021C21B14D004C5BBD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -91,6 +94,8 @@
 			children = (
 				EB245E291C31A7BD00AE68FC /* haarcascade_eye.xml */,
 				EB245E2A1C31A7BD00AE68FC /* haarcascade_frontalface_alt2.xml */,
+				EB245E2D1C31B40800AE68FC /* EyeBlinkingAnalyser.h */,
+				EB245E2E1C31B40800AE68FC /* EyeBlinkingAnalyser.mm */,
 				EB245E261C31960800AE68FC /* VideoCamera.h */,
 				EB245E271C31960800AE68FC /* VideoCamera.mm */,
 				FFF274021C21B14D004C5BBD /* AppDelegate.h */,
@@ -238,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB245E281C31960800AE68FC /* VideoCamera.mm in Sources */,
+				EB245E2F1C31B40800AE68FC /* EyeBlinkingAnalyser.mm in Sources */,
 				FFF274071C21B14D004C5BBD /* ViewController.mm in Sources */,
 				FFF274041C21B14D004C5BBD /* AppDelegate.m in Sources */,
 				FFF274011C21B14D004C5BBD /* main.m in Sources */,

@@ -9,8 +9,7 @@
 #import <opencv2/videoio/cap_ios.h>
 
 @interface VideoCamera : CvVideoCamera
+@property (nonatomic, strong) CALayer *customPreviewLayer;
 - (void)updateOrientation;
 - (void)layoutPreviewLayer;
-
-@property (nonatomic, retain) CALayer *customPreviewLayer;
 @end

@@ -11,21 +11,14 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Masonry/Masonry.h>
 #import "VideoCamera.h"
-#import <opencv2/objdetect/objdetect.hpp>
+#import "EyeBlinkingAnalyser.h"
 #import <opencv2/videoio/cap_ios.h>
-#import <opencv2/opencv.hpp>
 
-using namespace cv;
 
 static const NSTimeInterval kEyeBlinkingSessionTimeInterval = 10.f;
 static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
-static const NSString *kCascafeFrontalFaceFileName = @"haarcascade_frontalface_alt2";
-static const NSString *kCascadeEyeFileName = @"haarcascade_eye";
 
-@interface ViewController () <CvVideoCameraDelegate, UIAlertViewDelegate>
-{
-    CascadeClassifier eyeCascade;
-}
+@interface ViewController () <UIAlertViewDelegate>
 @property (nonatomic, strong) UIView *videoCaptureView;
 @property (nonatomic, strong) VideoCamera *videoCamera;
 @property (nonatomic, strong) NSTimer *sessionTimer;
@@ -33,6 +26,7 @@ static const NSString *kCascadeEyeFileName = @"haarcascade_eye";
 @property (nonatomic, strong) UIAlertController *alertController;
 @property (nonatomic, weak) IBOutlet UILabel *blinkDetectedLabel;
 @property (nonatomic, strong) NSTimer *blinkLabelTimer;
+@property (nonatomic, strong) EyeBlinkingAnalyser *eyeBlinkAnalyser;
 @end
 
 @implementation ViewController
@@ -50,6 +44,25 @@ static const NSString *kCascadeEyeFileName = @"haarcascade_eye";
     }];
     self.videoCaptureView.backgroundColor = [UIColor blueColor];
     [self.view sendSubviewToBack:self.videoCaptureView];
+    self.eyeBlinkAnalyser = [[EyeBlinkingAnalyser alloc] init];
+    self.eyeBlinkAnalyser.didChangeState =  ^(EyeBlinkingState state)
+    {
+        switch (state)
+        {
+            case EyeBlinkingStateNoFace:
+                NSLog(@"state = EyeBlinkingStateNoFace");
+                break;
+            case EyeBlinkingStateEyeDetected:
+                NSLog(@"state = EyeBlinkingStateEyeDetected");
+                break;
+            case EyeBlinkingStateEyeNotDetected:
+                NSLog(@"state = EyeBlinkingStateEyeNotDetected");
+                break;
+            default:
+                NSLog(@"state = DEFAULT");
+                break;
+        }
+    };
     [self initCapture];
     //    [self resetSession];
 }
@@ -92,15 +105,13 @@ static const NSString *kCascadeEyeFileName = @"haarcascade_eye";
 
 - (void)initCapture
 {
-    NSString *eyeCascadePath = [[NSBundle mainBundle] pathForResource:(NSString *)kCascadeEyeFileName ofType:@"xml"];
-    eyeCascade.load([eyeCascadePath UTF8String]);
     self.videoCamera = [[VideoCamera alloc] initWithParentView:self.videoCaptureView];
     self.videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionFront;
     self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset1280x720;
     self.videoCamera.defaultAVCaptureVideoOrientation = AVCaptureVideoOrientationPortrait;
     [self.videoCamera adjustLayoutToInterfaceOrientation:UIInterfaceOrientationPortrait];
     self.videoCamera.defaultFPS = 30;
-    self.videoCamera.delegate = self;
+    self.videoCamera.delegate = self.eyeBlinkAnalyser;
     [self.videoCamera start];
 }
 
@@ -117,81 +128,5 @@ static const NSString *kCascadeEyeFileName = @"haarcascade_eye";
 - (void)blinkTimerAlarm:(NSTimer *)timer
 {
     self.blinkDetectedLabel.hidden = YES;
-}
-
-- (void)processImage:(Mat&)image;
-{
-    Mat tmpMat;
-    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
-    BOOL isInLandScapeMode = NO;
-    BOOL rotation = 1;
-    
-    //Rotate cv::Mat to the portrait orientation
-    if(orientation == UIDeviceOrientationLandscapeRight)
-    {
-        isInLandScapeMode = YES;
-        rotation = 1;
-    }
-    else if(orientation == UIDeviceOrientationLandscapeLeft)
-    {
-        isInLandScapeMode = YES;
-        rotation = 0;
-    }
-    else if(orientation == UIDeviceOrientationPortraitUpsideDown)
-    {
-        cv::transpose(image, tmpMat);
-        cv::flip(tmpMat, image, rotation);
-        cv::transpose(image, tmpMat);
-        cv::flip(tmpMat, image, rotation);
-        cvtColor(image, image, CV_BGR2BGRA);
-        cvtColor(image, image, CV_BGR2RGB);
-    }
-    
-    if(isInLandScapeMode)
-    {
-        cv::transpose(image, tmpMat);
-        cv::flip(tmpMat, image, rotation);
-        cvtColor(image, image, CV_BGR2BGRA);
-        cvtColor(image, image, CV_BGR2RGB);
-    }
-    BOOL bEyeFound = false;
-    std::vector<cv::Rect> eyes;
-    Mat frame_gray;
-    
-    cvtColor(image, frame_gray, CV_BGRA2GRAY);
-    equalizeHist(frame_gray, frame_gray);
-    
-    eyeCascade.detectMultiScale(frame_gray, eyes, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(100, 100));
-    
-    for(unsigned int i = 0; i < eyes.size(); ++i)
-    {
-        rectangle(image, cv::Point(eyes[i].x, eyes[i].y), cv::Point(eyes[i].x + eyes[i].width, eyes[i].y + eyes[i].height), cv::Scalar(0,255,255));
-        bEyeFound = true;
-    }
-    
-    if (bEyeFound)
-    {
-        NSLog(@"eyesFound");
-    }
-    else
-    {
-        NSLog(@"eyesNOTFound");
-    }
-    
-    if(isInLandScapeMode)
-    {
-        cv::transpose(image, tmpMat);
-        cv::flip(tmpMat, image, !rotation);
-        cvtColor(image, image, CV_BGR2RGB);
-        
-    }
-    else if(orientation == UIDeviceOrientationPortraitUpsideDown)
-    {
-        cv::transpose(image, tmpMat);
-        cv::flip(tmpMat, image, !rotation);
-        cv::transpose(image, tmpMat);
-        cv::flip(tmpMat, image, !rotation);
-        cvtColor(image, image, CV_BGR2RGB);
-    }
 }
 @end
