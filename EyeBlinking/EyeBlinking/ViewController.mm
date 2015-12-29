@@ -52,14 +52,10 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
 - (void)appendState:(NSNumber *)state
 {
     NSLog(@"state = %d", state.intValue);
-    if ([self.states count] < 3)
-    {
-        [self.states addObject:state];
-    }
-    else
+    [self.states addObject:state];
+    if ([self.states count] > 3)
     {
         [self.states removeObjectAtIndex:0];
-        [self.states addObject:state];
         int first = [(NSNumber *)self.states[0] intValue];
         int second = [(NSNumber *)self.states[1] intValue];
         int third = [(NSNumber *)self.states[2] intValue];
@@ -68,6 +64,7 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
             self.blinksCount++;
             [self showBlinkDetectedLabel];
         }
+        
     }
 }
 
