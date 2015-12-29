@@ -93,75 +93,49 @@ using namespace cv;
                 cvtColor(image, image, CV_BGR2RGB);
             }
             
+            std::vector<cv::Rect> faces;
             Mat frame_gray;
+            
             cvtColor(image, frame_gray, CV_BGRA2GRAY);
             equalizeHist(frame_gray, frame_gray);
             
-            if(self.state == EyeBlinkingStateNoFace)
-            {
-                std::vector<cv::Rect> faces;
-                self.faceCascade->detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(100, 100));
-                if (faces.size() > 0)
-                {
-                    std::vector<cv::Rect> eyes;
-                    self.eyeCascade->detectMultiScale(frame_gray, eyes, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(100, 100));
-                    if (eyes.size() > 0)
-                    {
-                        self.state = EyeBlinkingStateEyeDetected;
-                        if (self.didChangeState)
-                        {
-                            self.didChangeState(self.state);
-                        }
-                    }
-                    else
-                    {
-                        self.state = EyeBlinkingStateEyeNotDetected;
-                        if (self.didChangeState)
-                        {
-                            self.didChangeState(self.state);
-                        }
-                    }
-                }
-            }
+            self.faceCascade->detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(100, 100));
             
-            else if (self.state == EyeBlinkingStateEyeNotDetected)
+            if (faces.size() > 0)
             {
                 std::vector<cv::Rect> eyes;
                 self.eyeCascade->detectMultiScale(frame_gray, eyes, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(100, 100));
                 if (eyes.size() > 0)
                 {
-                    self.state = EyeBlinkingStateEyeDetected;
-                    if (self.didChangeState)
+                    if (self.state != EyeBlinkingStateEyeDetected)
                     {
-                        self.didChangeState(self.state);
+                        self.state = EyeBlinkingStateEyeDetected;
+                        if (self.didChangeState)
+                        {
+                            self.didChangeState(@1);
+                        }
                     }
+                    
                 }
                 else
                 {
-                    std::vector<cv::Rect> faces;
-                    self.faceCascade->detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(100, 100));
-                    if (faces.size() == 0)
+                    if (self.state != EyeBlinkingStateEyeNotDetected)
                     {
-                        self.state = EyeBlinkingStateNoFace;
+                        self.state = EyeBlinkingStateEyeNotDetected;
                         if (self.didChangeState)
                         {
-                            self.didChangeState(self.state);
+                            self.didChangeState(@0);
                         }
                     }
                 }
             }
             
-            else if (self.state == EyeBlinkingStateEyeDetected)
+            else if (self.state != EyeBlinkingStateNoFace)
             {
-                std::vector<cv::Rect> eyes;
-                self.eyeCascade->detectMultiScale(frame_gray, eyes, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(100, 100));
-                if (eyes.size() == 0)
+                self.state = EyeBlinkingStateNoFace;
+                if (self.didChangeState)
                 {
-                    self.state = EyeBlinkingStateEyeNotDetected;
-                    if (self.didChangeState)
-                    {
-                        self.didChangeState(self.state);
-                    }
+                    self.didChangeState(@-1);
                 }
             }
             self.inProgress = NO;

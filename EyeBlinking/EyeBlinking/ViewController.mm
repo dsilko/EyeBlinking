@@ -14,7 +14,7 @@
 #import "EyeBlinkingAnalyser.h"
 #import <opencv2/videoio/cap_ios.h>
 
-static const NSTimeInterval kEyeBlinkingSessionTimeInterval = 10.f;
+static const NSTimeInterval kEyeBlinkingSessionTimeInterval = 20.f;
 static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
 
 @interface ViewController () <UIAlertViewDelegate>
@@ -26,7 +26,7 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
 @property (nonatomic, weak) IBOutlet UILabel *blinkDetectedLabel;
 @property (nonatomic, strong) NSTimer *blinkLabelTimer;
 @property (nonatomic, strong) EyeBlinkingAnalyser *eyeBlinkAnalyser;
-@property (atomic, strong) NSMutableArray *states;
+@property (nonatomic, strong) NSMutableArray *states;
 @end
 
 @implementation ViewController
@@ -42,49 +42,42 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
         make.trailing.equalTo(self.view);
         make.bottom.equalTo(self.view);
     }];
-    self.videoCaptureView.backgroundColor = [UIColor blueColor];
     [self.view sendSubviewToBack:self.videoCaptureView];
+    self.states = [NSMutableArray new];
     self.eyeBlinkAnalyser = [[EyeBlinkingAnalyser alloc] init];
-    //    __weak typeof(self) weakSelf = self;
-    self.eyeBlinkAnalyser.didChangeState =  ^(EyeBlinkingState state)
-    {
-        //        __strong typeof(weakSelf) strongSelf = weakSelf;
-        switch (state)
-        {
-            case EyeBlinkingStateNoFace:
-                NSLog(@"state = EyeBlinkingStateNoFace");
-                break;
-            case EyeBlinkingStateEyeDetected:
-                NSLog(@"state = EyeBlinkingStateEyeDetected");
-                break;
-            case EyeBlinkingStateEyeNotDetected:
-                NSLog(@"state = EyeBlinkingStateEyeNotDetected");
-                break;
-            default:
-                NSLog(@"state = DEFAULT");
-                break;
-        }
-    };
     [self initCapture];
-    //    [self resetSession];
+    [self resetSession];
 }
 
 - (void)appendState:(NSNumber *)state
 {
-    [self.states addObject:state];
-    if ([self.states count] == 3)
+    NSLog(@"state = %d", state.intValue);
+    if ([self.states count] < 3)
     {
-        
+        [self.states addObject:state];
+    }
+    else
+    {
+        [self.states removeObjectAtIndex:0];
+        [self.states addObject:state];
+        int first = [(NSNumber *)self.states[0] intValue];
+        int second = [(NSNumber *)self.states[1] intValue];
+        int third = [(NSNumber *)self.states[2] intValue];
+        if((first == 1) && (second == 0) && (third == 1))
+        {
+            self.blinksCount++;
+            [self showBlinkDetectedLabel];
+        }
     }
 }
 
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    float rotation;
+    CGFloat rotation = 0.f;
     
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
     {
-        rotation = 0;
+        rotation = 0.f;
     }
     else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft)
     {
@@ -98,12 +91,21 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
         self.videoCaptureView.transform = CGAffineTransformMakeRotation(rotation);
         self.videoCaptureView.frame = self.view.frame;
     }];
+    
 }
 
 - (void)resetSession
 {
     [self.sessionTimer invalidate];
     self.blinksCount = 0;
+    [self.states removeAllObjects];
+    __weak typeof(self) weakSelf = self;
+    self.eyeBlinkAnalyser.didChangeState =  ^(NSNumber *state)
+    {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf performSelectorOnMainThread:@selector(appendState:) withObject:state waitUntilDone:NO];
+    };
+    [self.videoCamera start];
     self.sessionTimer = [NSTimer scheduledTimerWithTimeInterval:kEyeBlinkingSessionTimeInterval target:self selector:@selector(sessionTimerAlarm:) userInfo:nil repeats:NO];
 }
 
@@ -128,7 +130,11 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
 
 - (void)sessionTimerAlarm:(NSTimer *)timer
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Eye blinks" message:@"0" preferredStyle:UIAlertControllerStyleAlert];
+    self.eyeBlinkAnalyser.didChangeState = nil;
+    self.eyeBlinkAnalyser.state = EyeBlinkingStateNoFace;
+    [self.videoCamera stop];
+    NSString *message = [NSString stringWithFormat:@"%lu",(unsigned long)self.blinksCount];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Eye blinks" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *restartAction = [UIAlertAction actionWithTitle:@"restart" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){
         [self resetSession];
     }];

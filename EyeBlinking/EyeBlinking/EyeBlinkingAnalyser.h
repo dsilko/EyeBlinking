@@ -19,6 +19,6 @@ enum EyeBlinkingState
 @interface EyeBlinkingAnalyser : NSObject <CvVideoCameraDelegate>
 
 @property (assign) EyeBlinkingState state;
-@property (nonatomic, copy) void (^didChangeState)(EyeBlinkingState state);
+@property (nonatomic, copy) void (^didChangeState)(NSNumber *state);
 
 @end
