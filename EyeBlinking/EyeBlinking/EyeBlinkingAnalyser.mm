@@ -99,14 +99,21 @@ using namespace cv;
             cvtColor(image, frame_gray, CV_BGRA2GRAY);
             equalizeHist(frame_gray, frame_gray);
             
-            self.faceCascade->detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(100, 100));
+            self.faceCascade->detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(50, 50), cv::Size(150, 150));
             
             if (faces.size() > 0)
             {
+                //                cv::Rect face = faces[0];
+                ////                NSLog(@"face size = %d - %d", face.width, face.height);
                 std::vector<cv::Rect> eyes;
-                self.eyeCascade->detectMultiScale(frame_gray, eyes, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(100, 100));
+                self.eyeCascade->detectMultiScale(frame_gray, eyes, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(10, 10), cv::Size(50, 50));
                 if (eyes.size() > 0)
                 {
+                    cv::Rect eye = eyes[0];
+                    //                    NSLog(@"eye size = %d - %d", eye.width, eye.height);
+                    ////                    float a = (float)face.height / eye.height;
+                    ////
+                    ////                    NSLog(@"ololo - %f", a);
                     if (self.state != EyeBlinkingStateEyeDetected)
                     {
                         self.state = EyeBlinkingStateEyeDetected;

@@ -34,13 +34,13 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.videoCaptureView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.videoCaptureView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 480, 640)];
     [self.view addSubview:self.videoCaptureView];
     [self.videoCaptureView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view);
-        make.leading.equalTo(self.view);
-        make.trailing.equalTo(self.view);
-        make.bottom.equalTo(self.view);
+        make.width.equalTo(@480);
+        make.height.equalTo(@640);
+        make.centerX.equalTo(self.view);
+        make.centerY.equalTo(self.view);
     }];
     [self.view sendSubviewToBack:self.videoCaptureView];
     self.states = [NSMutableArray new];
@@ -99,8 +99,9 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
     [self.sessionTimer invalidate];
     self.blinksCount = 0;
     [self.states removeAllObjects];
+    self.videoCamera.delegate = self.eyeBlinkAnalyser;
     __weak typeof(self) weakSelf = self;
-    self.eyeBlinkAnalyser.didChangeState =  ^(NSNumber *state)
+    self.eyeBlinkAnalyser.didChangeState = ^(NSNumber *state)
     {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf performSelectorOnMainThread:@selector(appendState:) withObject:state waitUntilDone:NO];
@@ -120,19 +121,18 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
 {
     self.videoCamera = [[VideoCamera alloc] initWithParentView:self.videoCaptureView];
     self.videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionFront;
-    self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset1280x720;
+    self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPresetLow;
     self.videoCamera.defaultAVCaptureVideoOrientation = AVCaptureVideoOrientationPortrait;
     [self.videoCamera adjustLayoutToInterfaceOrientation:UIInterfaceOrientationPortrait];
     self.videoCamera.defaultFPS = 30;
-    self.videoCamera.delegate = self.eyeBlinkAnalyser;
     [self.videoCamera start];
 }
 
 - (void)sessionTimerAlarm:(NSTimer *)timer
 {
     self.eyeBlinkAnalyser.didChangeState = nil;
+    self.videoCamera.delegate = nil;
     self.eyeBlinkAnalyser.state = EyeBlinkingStateNoFace;
-    [self.videoCamera stop];
     NSString *message = [NSString stringWithFormat:@"%lu",(unsigned long)self.blinksCount];
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Eye blinks" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *restartAction = [UIAlertAction actionWithTitle:@"restart" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){
