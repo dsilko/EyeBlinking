@@ -14,7 +14,6 @@
 #import "EyeBlinkingAnalyser.h"
 #import <opencv2/videoio/cap_ios.h>
 
-
 static const NSTimeInterval kEyeBlinkingSessionTimeInterval = 10.f;
 static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
 
@@ -27,6 +26,7 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
 @property (nonatomic, weak) IBOutlet UILabel *blinkDetectedLabel;
 @property (nonatomic, strong) NSTimer *blinkLabelTimer;
 @property (nonatomic, strong) EyeBlinkingAnalyser *eyeBlinkAnalyser;
+@property (atomic, strong) NSMutableArray *states;
 @end
 
 @implementation ViewController
@@ -45,8 +45,10 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
     self.videoCaptureView.backgroundColor = [UIColor blueColor];
     [self.view sendSubviewToBack:self.videoCaptureView];
     self.eyeBlinkAnalyser = [[EyeBlinkingAnalyser alloc] init];
+    //    __weak typeof(self) weakSelf = self;
     self.eyeBlinkAnalyser.didChangeState =  ^(EyeBlinkingState state)
     {
+        //        __strong typeof(weakSelf) strongSelf = weakSelf;
         switch (state)
         {
             case EyeBlinkingStateNoFace:
@@ -65,6 +67,15 @@ static const NSTimeInterval kBlinkDetectedLabelTimeInterval = 1.f;
     };
     [self initCapture];
     //    [self resetSession];
+}
+
+- (void)appendState:(NSNumber *)state
+{
+    [self.states addObject:state];
+    if ([self.states count] == 3)
+    {
+        
+    }
 }
 
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
