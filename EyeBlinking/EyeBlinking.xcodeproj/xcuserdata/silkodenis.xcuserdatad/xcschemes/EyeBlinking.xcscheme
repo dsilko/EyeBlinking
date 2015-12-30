@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FFF273FB1C21B14D004C5BBD"
+               BlueprintIdentifier = "FFAB01D51C341B28000883DD"
                BuildableName = "EyeBlinking.app"
                BlueprintName = "EyeBlinking"
                ReferencedContainer = "container:EyeBlinking.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FFF273FB1C21B14D004C5BBD"
+            BlueprintIdentifier = "FFAB01D51C341B28000883DD"
             BuildableName = "EyeBlinking.app"
             BlueprintName = "EyeBlinking"
             ReferencedContainer = "container:EyeBlinking.xcodeproj">
@@ -55,7 +55,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FFF273FB1C21B14D004C5BBD"
+            BlueprintIdentifier = "FFAB01D51C341B28000883DD"
             BuildableName = "EyeBlinking.app"
             BlueprintName = "EyeBlinking"
             ReferencedContainer = "container:EyeBlinking.xcodeproj">
@@ -74,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FFF273FB1C21B14D004C5BBD"
+            BlueprintIdentifier = "FFAB01D51C341B28000883DD"
             BuildableName = "EyeBlinking.app"
             BlueprintName = "EyeBlinking"
             ReferencedContainer = "container:EyeBlinking.xcodeproj">
